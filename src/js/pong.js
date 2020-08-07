@@ -15,6 +15,7 @@ const initial_pad_position      = {x: canvas.width / 2, y: 550};
 
 let score                       = 0;
 let is_game_over                = false;
+let ball_can_bounce             = true;
 let ball_speed                  = initial_ball_speed;
 let ball_direction = {
     x: initial_ball_direction.x,
@@ -65,7 +66,7 @@ function move_ball() {
 // Game functions ------------------------------------------------
 function game_over() {
     is_game_over = true;
-    document.getElementById("pontuacao").innerText = score;
+    document.getElementById("final-score").innerText = score;
     document.getElementById("game-over").style = "display : inline";
 }
 
@@ -89,7 +90,14 @@ function replay() {
     };
     is_game_over = false;
     document.getElementById("game-over").style = "display : none";
+    document.getElementById('score').innerHTML = score;
     draw();
+}
+
+function increase_score_and_speed() {
+    score += 1;
+    ball_speed += 0.5;
+    document.getElementById('score').innerHTML = score;
 }
 
 // Detect collision functions ---------------------------------------
@@ -97,6 +105,7 @@ function detect_border_collision() {
     const right_limit = canvas.width - ball_size[0]
     if (ball_position.x < 0 || ball_position.x > right_limit) {
         bounce_ball_horizontally();
+        ball_can_bounce = true;
     }
 }
 
@@ -108,12 +117,15 @@ function detect_top_collision() {
 
 function detect_pad_collision() {
     if (
+        ball_can_bounce &&
         ball_position.y + ball_size[1] > pad_position.y &&
         ball_position.y < pad_position.y + pad_size[1] &&
         ball_position.x > pad_position.x &&
         ball_position.x < pad_position.x + pad_size[0]
     ) {
+        ball_can_bounce = false;
         bounce_ball_vertically();
+        increase_score_and_speed();
     }
 }
 
