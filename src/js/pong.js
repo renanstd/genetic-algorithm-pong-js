@@ -96,7 +96,9 @@ function replay() {
 
 function increase_score_and_speed() {
     score += 1;
-    ball_speed += 0.5;
+    if (score < 20) {
+        ball_speed += 0.5;
+    }
     document.getElementById('score').innerHTML = score;
 }
 
