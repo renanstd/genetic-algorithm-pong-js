@@ -68,6 +68,7 @@ function game_over() {
     is_game_over = true;
     document.getElementById("final-score").innerText = score;
     document.getElementById("game-over").style = "display : inline";
+    document.getElementById("play-again").focus();
 }
 
 function replay() {
@@ -80,7 +81,7 @@ function replay() {
     };
     // Spawn ball in random horizontal positions
     ball_position = {
-        x: Math.floor(Math.random() * canvas.height) + ball_size[0],
+        x: Math.floor(Math.random() * canvas.height - (2 * ball_size[0])) + ball_size[0],
         y: ball_spawn_point.y
     };
     // Return pad to center
